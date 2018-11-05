@@ -32,16 +32,7 @@ class Tabs extends React.Component {
 					})}
 				</div>
 				<div style={tabsBodyStyles}>
-					{this.props.tabs.map( (tab, index) => {
-						return (
-							<div 
-								className='tabs-body__item' 
-								hidden={this.props.activeTab !== index}
-								children={tab.component}
-								key={tab.title} 
-							/> 
-						)
-					})}
+					{this.props.tabs[this.props.activeTab].component}
 				</div>
 			</div>	
 		)
@@ -49,3 +40,13 @@ class Tabs extends React.Component {
 }
 
 export default Tabs
+					// {this.props.tabs.map( (tab, index) => {
+					// 	return (
+					// 		<div 
+					// 			className='tabs-body__item' 
+					// 			hidden={this.props.activeTab !== index}
+					// 			children={tab.component}
+					// 			key={tab.title} 
+					// 		/> 
+					// 	)
+					// })}

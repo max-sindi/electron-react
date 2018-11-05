@@ -54,11 +54,7 @@ function makeWebShot() {
 }
 
 function makeScreenShot() {
-  remote.getCurrentWindow().capturePage({
-    // screenshots params 
-    x: 0, y: 0, width: 1000, height: 100
-    // cb => write files
-  }, img => {
+  remote.getCurrentWindow().capturePage(img => {
     remote.require('fs-extra')
       .outputFile(
         // screen name

@@ -5,7 +5,7 @@ import Gallery from './Gallery'
 
 class App extends Component {
   state = {
-    activeTab: 0
+    activeTab: 1
   }
 
   render() {

@@ -8,6 +8,10 @@ class Controls extends React.Component {
 		timer: null,
 	}
 
+	componentWillUnmount = () => {
+		clearInterval(this.state.timer)
+	}
+
 	start = () => {
 		const timer = startScreening(this.state.delayValue * 1000)
 		if( !timer ) {

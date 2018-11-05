@@ -6,16 +6,12 @@ const isDev = require('electron-is-dev');
 
 let mainWindow;
 
-createWindow = () => {
-	mainWindow = new BrowserWindow({
+const createWindow = () => {
+	const mainWindow = new BrowserWindow({
 		backgroundColor: '#F7F7F7',
 		minWidth: 880,
 		show: false,
 		titleBarStyle: 'hidden',
-		// webPreferences: {
-		// 	nodeIntegration: false,
-		// 	preload: __dirname + '/preload.js',
-		// },
 		height: 860,
 		width: 1280,
 	});
@@ -24,6 +20,9 @@ createWindow = () => {
 			? 'http://localhost:3000'
 			: `file://${path.join(__dirname, '../build/index.html')}`,
 	);
+
+	mainWindow.maximize()
+	mainWindow.webContents.openDevTools()
 
 	if (isDev) {
 		const {
