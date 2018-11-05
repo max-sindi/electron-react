@@ -13,7 +13,15 @@ class Controls extends React.Component {
 	}
 
 	start = () => {
-		const timer = startScreening(this.state.delayValue * 1000)
+		let timer;
+
+		try {
+			timer = startScreening(this.state.delayValue * 1000)
+		} catch(e) {
+			console.log(e);
+			this.stop();
+		}
+
 		if( !timer ) {
 			console.error('Something went wrong')
 			return;
@@ -37,16 +45,16 @@ class Controls extends React.Component {
 		return (
 			<div>
 				{
-					!this.state.isActive 
+					!this.state.isActive
 						? (
 								<div>
-									<input 
+									<input
 										value={this.state.delyaActive}
 										type="number"
 										placeholder="Частота фотографирования (сек)"
-										onChange={ e => this.setState({ delayValue: e.target.value })} 
+										onChange={ e => this.setState({ delayValue: e.target.value })}
 									/>
-									<button 
+									<button
 										children="Поехали"
 										onClick={this.start}
 									/>

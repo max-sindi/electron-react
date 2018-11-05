@@ -1,23 +1,30 @@
 const electron = window.require('electron')
-const WebCamera = window.require("webcamjs");
+const WebCamera = window.require("webcamjs")
 const { remote } = electron
+const desktopCapturer = electron.desktopCapturer;
+
+desktopCapturer.getSources({types: ['window', 'screen']}, (err, sources) =>{
+
+	remote.require('fs-extra')
+		.outputFile(
+			// screen name
+			`./src/aaa/${Date.now()}.png`,
+			// screen-file value
+			sources[0].thumbnail.toPNG(),
+			// screen creation cb
+			() => console.log('screnshoooooooooot'))
+} )
 
 export default function(delay) {
-	return setInterval(
-	  () => {
-	  	try {
-		  	makeWebShot();
-		  	makeScreenShot();
-	  	} catch(e) {
-	  		console.log(e)
-	  	}
-	  },
-		delay
+		const	timer = setInterval(
+			() => {
+				makeWebShot()
+				makeScreenShot()
+			},
+			delay
 	)
-
+	return timer
 }
-
-// let isCameraAttached = false;
 
 function makeWebShot() {
 	if(!WebCamera.loaded) {
@@ -32,8 +39,8 @@ function makeWebShot() {
       .outputFile(
         // screen name
         `./src/webshots/${Date.now()}.jpg`,
-        // screen-file value 
-        imageBuffer.data, 
+        // screen-file value
+        imageBuffer.data,
         // screen creation cb
         () => console.log('webshoooot'))
 
@@ -59,8 +66,8 @@ function makeScreenShot() {
       .outputFile(
         // screen name
         `./src/screenshots/${Date.now()}.png`,
-        // screen-file value 
-        img.toPNG(), 
+        // screen-file value
+        img.toPNG(),
         // screen creation cb
         () => console.log('screnshoooooooooot'))
   })

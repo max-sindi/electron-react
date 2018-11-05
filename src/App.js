@@ -5,7 +5,7 @@ import Gallery from './Gallery'
 
 class App extends Component {
   state = {
-    activeTab: 1
+    activeTab: 0
   }
 
   render() {
@@ -23,10 +23,10 @@ class App extends Component {
 
     return (
       <div className="App">
-        <Tabs 
-          activeTab={state.activeTab} 
-          tabs={tabs} 
-          changeTab={ activeTab => this.setState({ activeTab }) } 
+        <Tabs
+          activeTab={state.activeTab}
+          tabs={tabs}
+          changeTab={ activeTab => this.setState({ activeTab }) }
         />
       </div>
     );
@@ -34,4 +34,3 @@ class App extends Component {
 }
 
 export default App;
- 

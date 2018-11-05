@@ -8,6 +8,10 @@ class Gallery extends React.Component {
 
 	componentDidMount = () => {
 		fs.readdir('./src/screenshots', null, (err, imgs) => {
+			if(!imgs) {
+				return
+			}
+
 			imgs.forEach( img => {
 				const file = fs.readFile(`./src/screenshots/${img}`, 'base64', (error, file) => {
 					// convert img to valid base64 code
@@ -19,10 +23,10 @@ class Gallery extends React.Component {
 							// with path for possibility deleting img in future
 							path: img,
 						})
-						
+
 						return { imgs: newImgArr};
 					})
-				})				
+				})
 			})
 		})
 	}
@@ -47,12 +51,17 @@ class Gallery extends React.Component {
 
 		return (
 			<div style={galleryContainerStyles}>
-				{imgs.length > 0 && imgs.map( img => {
-					return (
-						<div style={galleryItemWrapStyles}>
-							<img src={img.src} alt="gallerry-picture" style={imgStyles} />
-						</div>
-					)
+				{
+					imgs.length === 0
+						? <p>На данный момент фотографий нет</p>
+						:
+							imgs.map( img => {
+								return (
+									<div style={galleryItemWrapStyles}>
+									<img src={img.src} alt="gallerry-picture" style={imgStyles} />
+									</div>
+								)
+
 				})}
 			</div>
 		)
