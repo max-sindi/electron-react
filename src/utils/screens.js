@@ -1,19 +1,13 @@
+import config from './config'
 const electron = window.require('electron')
 const WebCamera = window.require("webcamjs")
 const { remote } = electron
-const desktopCapturer = electron.desktopCapturer;
+const desktopCapturer = electron.desktopCapturer
+const { width, height } = electron.screen.getAllDisplays()[0].size
 
-desktopCapturer.getSources({types: ['window', 'screen']}, (err, sources) =>{
-
-	remote.require('fs-extra')
-		.outputFile(
-			// screen name
-			`./src/aaa/${Date.now()}.png`,
-			// screen-file value
-			sources[0].thumbnail.toPNG(),
-			// screen creation cb
-			() => console.log('screnshoooooooooot'))
-} )
+WebCamera.on( 'error', function(err) {
+	console.log('camera error')
+});
 
 export default function(delay) {
 		const	timer = setInterval(
@@ -27,9 +21,10 @@ export default function(delay) {
 }
 
 function makeWebShot() {
+
 	if(!WebCamera.loaded) {
 		WebCamera.attach('#camera')
-		throw('Camera is not loaded yet')
+		return
 	}
 
 	WebCamera.snap( data => {
@@ -38,7 +33,7 @@ function makeWebShot() {
     remote.require('fs-extra')
       .outputFile(
         // screen name
-        `./src/webshots/${Date.now()}.jpg`,
+        `./src/${config.webshotsFolderName}/${Date.now()}.png`,
         // screen-file value
         imageBuffer.data,
         // screen creation cb
@@ -61,14 +56,15 @@ function makeWebShot() {
 }
 
 function makeScreenShot() {
-  remote.getCurrentWindow().capturePage(img => {
-    remote.require('fs-extra')
-      .outputFile(
-        // screen name
-        `./src/screenshots/${Date.now()}.png`,
-        // screen-file value
-        img.toPNG(),
-        // screen creation cb
-        () => console.log('screnshoooooooooot'))
-  })
+	desktopCapturer.getSources({ types: ['window', 'screen'], thumbnailSize: { width, height, }}, (err, sources) => {
+		remote.require('fs-extra')
+			.outputFile(
+				// screen name
+				`./src/${config.screenshotsFolderName}/${Date.now()}.png`,
+				// screen-file value
+				sources[0].thumbnail.toPNG(),
+				// screen creation cb
+				() => console.log('screnshoooooooooot')
+			)
+	})
 }
