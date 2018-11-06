@@ -4,7 +4,7 @@ import startScreening from './utils/screens'
 class Controls extends React.Component {
 	state = {
 		isActive: false,
-		delayValue: 1,
+		delayValue: 5,
 		timer: null,
 	}
 
@@ -43,7 +43,7 @@ class Controls extends React.Component {
 
 	render() {
 		return (
-			<div>
+			<div className="controls">
 				{
 					!this.state.isActive
 						? (

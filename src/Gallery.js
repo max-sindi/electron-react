@@ -22,14 +22,21 @@ class Gallery extends React.Component {
 		})
 
 		function readScreenshots() {
-			return readPictures({ folderPath: `./src/${config.screenshotsFolderName}`, imgExt: 'png' })
+			readPictures({ folderPath: `./src/${config.screenshotsFolderName}`, imgExt: 'png' })
 		}
 
 		function readWebshots() {
-			return readPictures({ folderPath: `./src/${config.webshotsFolderName}`, imgExt: 'png' })
+			readPictures({ folderPath: `./src/${config.webshotsFolderName}`, imgExt: 'png' })
 		}
 
 		function readPictures({ folderPath, imgExt }) {
+			// such a perverted way to check is directory exist
+			try {
+				fs.statSync(folderPath)
+			} catch(e) {
+				return;
+			}
+			
 			const imgs = fs.readdirSync(folderPath, null)
 
 			if(!imgs) {
@@ -60,6 +67,7 @@ class Gallery extends React.Component {
 		const galleryItemWrapStyles = {
 			width: 200,
 			height: 300,
+			padding: 20,
 		}
 
 		const imgStyles = {
@@ -77,7 +85,7 @@ class Gallery extends React.Component {
 							imgs.map( img => {
 								return (
 									<div style={galleryItemWrapStyles} key={img.path}>
-										<img src={img.src} alt="gallerry-picture" style={imgStyles} />
+										<img src={img.src} alt="gallery-item" style={imgStyles} />
 									</div>
 								)
 
